@@ -1,0 +1,85 @@
+# ─── Core Run Info ─────────────────────────────────────────────────────────
+run_name: "create_your_own_name_here"    
+save_path: "your_output_directory"
+mode: "name_your_experiment_here"
+seed: 42
+
+# ─── Data Configuration ────────────────────────────────────────────────────
+data_root: "your_data_directory" # path to the root directory of your dataset
+dataset_folder_name: "M3A"
+csv_filename_combined: "combined_data.csv"
+split_by_column: "year"                          # or the name of a column if you want value_cutoff
+phase1_split_type: "value_cutoff"                     # ratio | count | value_cutoff
+phase1_split_value: 2014                        
+
+# ─── Default Drift Config ─────────────────────────────────────────────────
+image_drift_type: "degradation"                # none | degradation
+image_drift_args_jpeg_quality: 50
+image_drift_args_noise_std: 0.05
+image_drift_args_blur_radius: 3.0
+
+text_drift_type: "semantic_shift" # "none", "semantic_shift"
+text_drift_args_keyword_map: {"original": "drifted", "example": "illustration"}
+text_drift_args_append_phrase: "DRIFT_SIGNAL_TEXT" 
+apply_drift_to_specific_class: null # or 0 or 1
+
+# ─── Gradual Drift ─────────────────────────────────
+drift_is_gradual: False
+drift_gradual_steps: 200
+
+phase_C_sub_phases: []    # define sub-phases here if needed
+
+# ─── Batch & Unlabeled Data ────────────────────────────────────────────────
+batch_size: 128
+use_unlabeled_data: False
+csv_filename_unlabeled_source: "unlabeled_data_source.csv"
+
+# ─── Model Config ─────────────────────────────────────────────────────────
+text_model_name: "openai/clip-vit-base-patch32"
+vit_model_name: "openai/clip-vit-base-patch32"
+fusion_type: "weighted_average"
+initial_raw_alpha: 0.0
+
+# ─── Optimizer ─────────────────────────────────────────────────────────────
+batch_size: 128
+optimizer_type: "AdamW"                        # AdamW | Adam | SGD
+base_lr: 5e-5
+weight_decay: 0.001
+
+# ─── Experiment Loop Steps ────────────────────────────────────────────────
+steps_phase1_initial_train: 1000
+steps_phase2_adaptation:     3000
+
+log_every:             15
+save_every_phase1:    100
+save_every_phase2:    100
+force_retrain_phase1:  False   # set true if you want to ignore any existing phase1 checkpoint
+
+# ─── Controller Parameters ────────────────────────────────────────────────
+controller_acc_history_len:     100
+controller_drift_window:        100
+controller_drift_sig_drop:     0.02
+controller_drift_comp_ratio:   0.50
+controller_rule_high_drift_signal_threshold:     0.70
+controller_rule_moderate_drift_signal_threshold: 0.20
+controller_lr_adjust_factor:    1.5
+controller_alpha_adjust_step:   0.25
+controller_min_lr_bound:      1e-7
+controller_max_lr_bound:      1e-2
+controller_ref_image_drift_type: "degradation"
+controller_ref_text_drift_type:  "semantic_shift"
+controller_enable_lr_adapt:    True
+controller_enable_alpha_adapt: True
+
+
+# ─── Controller Cost Configuration ─────────────────────────────
+# cost per action index (1–10)
+controller_action_costs:
+  1:  0.10
+  2:  0.10
+  5:  0.05
+  7:  0.05
+  10: 0.00
+
+# ─── Plotting ─────────────────────────────────────────────────────────────
+generate_plots: True
