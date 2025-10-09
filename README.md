@@ -1,5 +1,7 @@
 # LS-OGD: Lyapunov Stable Adaptive Control for Multimodal Concept Drift
 
+**Upcoming Paper:** Pan, T., Zhu, M., Cole, A., Wilson, R., Woodard, D. (2025). Lyapunov-Stable Adaptive Control for Multimodal Concept Drift. *Advances in neural information processing systems* 2025 (San Diego).
+
 This repository contains the code for the paper "Lyapunov-Stable Adaptive Control for Multimodal Concept Drift" (LS-OGD). LS-OGD is a novel adaptive control framework for robust multimodal learning in non-stationary environments where concept drift can degrade performance. The system employs an online controller that dynamically adjusts the model's learning rate and the fusion weights between different data modalities in response to detected drift and evolving prediction errors. Theoretical guarantees establish that under bounded drift, the LS-OGD system's prediction error is uniformly ultimately bounded and converges to zero if the drift ceases.
 
 <img width="3935" height="2901" alt="lsogd" src="https://github.com/user-attachments/assets/fe6dbb0b-0f98-4563-b7c8-1aba1e98695c" />
